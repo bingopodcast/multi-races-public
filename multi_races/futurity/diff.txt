@@ -1,0 +1,1127 @@
+5c5
+< import procgame.game, sys, os, random
+---
+> import procgame.game, sys, os
+8d7
+< import pygame
+14c13
+< #from multi_races.graphics.turf_king import *
+---
+> from multi_races.graphics.futurity import *
+21,25d19
+<         self.game.coils.purse.enable()
+<         self.game.coils.show.enable()
+<         self.game.coils.place.enable()
+<         self.game.coils.win.enable()
+<         self.game.coils.feature.enable()
+30,35d23
+<         if self.game.start.status == False:
+<             self.game.horseshoe.disengage()
+<             self.game.clover.disengage()
+<             self.game.feature.disengage()
+<             self.game.star.disengage()
+<             self.game.all_advantages.engage(self.game)
+37c25
+<         self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>         self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+42c30
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+50c38
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+54,57c42,55
+<     #def sw_enter_active(self, sw):
+<     #    if self.game.switches.startButton.is_active() and self.game.switches.feature.is_active():
+<     #        self.game.end_run_loop()
+<     #        os.system("/home/nbaldridge/proc/multi-races/start_game.sh turf_king")
+---
+>     def sw_enter_active(self, sw):
+>         if self.game.switches.startButton.is_active() and self.game.switches.feature.is_active():
+>             self.game.end_run_loop()
+>             os.system("/home/nbaldridge/proc/multi-races/start_game.sh futurity")
+> 
+>     def check_shutter(self, start=0):
+>         if start == 1:
+>             if self.game.switches.smRunout.is_active():
+>                 if self.game.switches.shutter.is_active():
+>                     self.game.coils.shutter.disable()
+>         else:
+>             if self.game.switches.shutter.is_inactive():
+>                 if self.game.switches.smRunout.is_active():
+>                     self.game.coils.shutter.disable()
+61d58
+<         self.game.cu = not self.game.cu
+65,66c62
+<         begin = self.game.spotting.position
+<         self.game.spotting.spin()
+---
+>         begin1 = self.game.spotting.position
+67a64
+>         self.game.spotting.spin()
+68a66,67
+>         end1 = abs(self.game.spotting.position - begin1)
+>         end2 = abs(self.game.spotting2.position - begin2)
+73c72
+<         if self.game.switches.lane.is_inactive():
+---
+>         if self.game.switches.shutter.is_inactive():
+76c75
+<         self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>         self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+80c79,83
+<             if self.game.wild.position != 20:
+---
+>             if self.game.odds2_won.status == True:
+>                 self.game.step_odds(self.game.odds2.position)
+>                 self.game.odds2.reset()
+>                 self.game.odds2_won.disengage()
+>             if self.game.wild.position != 17:
+97a101,113
+>             if self.game.trophy_won.status == True:
+>                 self.game.purse_win.engage(self.game)
+>                 self.game.show_win.engage(self.game)
+>                 self.game.trophy_won.disengage()
+>             if self.game.entry_won.status == True:
+>                 self.game.entry_won.disengage()
+>             else:
+>                 self.game.selection = None
+>                 self.game.selection2 = None
+>             self.game.entry.disengage()
+>             self.game.trophy.disengage()
+>             self.game.odds2.reset()
+>         self.scan_all(begin1, begin2, end1, end2)
+99d114
+<         self.scan_all(begin)
+101,110c116,117
+<         self.game.horseshoe.disengage()
+<         self.game.clover.disengage()
+<         self.game.feature.disengage()
+<         self.game.star.disengage()
+<         self.game.all_advantages.engage(self.game)
+<         if self.game.fan.status == True:
+<             self.game.selection = [1,2,3,4,5,6,7]
+<         self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+<         
+<     def sw_lane_active(self, sw):
+---
+> 
+>     def sw_lane_active(self):
+113,114c120,124
+<     def sw_smRunout_active_for_10ms(self, sw):
+<         self.game.coils.shutter.disable()
+---
+>     def sw_smRunout_active_for_1ms(self, sw):
+>         if self.game.start.status == True:
+>             self.check_shutter(1)
+>         else:
+>             self.check_shutter()
+116c126
+<     def sw_lane_inactive_for_15ms(self, sw):
+---
+>     def sw_gate_inactive_for_1ms(self, sw):
+123c133,135
+<         self.game.all_advantages.engage(self.game)
+---
+>         if self.game.switches.shutter.is_active():
+>             self.game.coils.shutter.enable()
+>         self.game.sound.play('tilt')
+129,130c141,142
+<             self.search("purse")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+134,135c146,147
+<             self.search("purse")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+139,140c151,152
+<             self.search("purse")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+144,145c156,157
+<             self.search("purse")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+149,150c161,162
+<             self.search("purse")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+154,155c166,167
+<             self.search("purse")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+159,160c171,172
+<             self.search("purse")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+164,165c176,177
+<             self.search("show")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+169,170c181,182
+<             self.search("show")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+174,175c186,187
+<             self.search("show")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+179,180c191,192
+<             self.search("show")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+184,185c196,197
+<             self.search("show")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+189,190c201,202
+<             self.search("show")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+194,195c206,207
+<             self.search("show")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+199,200c211,212
+<             self.search("place")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+204,205c216,217
+<             self.search("place")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+209,210c221,222
+<             self.search("place")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+214,215c226,227
+<             self.search("place")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+219,220c231,232
+<             self.search("place")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+224,225c236,237
+<             self.search("place")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+229,230c241,242
+<             self.search("place")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+234,235c246,247
+<             self.search("win")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+239,240c251,252
+<             self.search("win")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+244,245c256,257
+<             self.search("win")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+249,250c261,262
+<             self.search("win")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+254,255c266,267
+<             self.search("win")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+259,260c271,272
+<             self.search("win")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+264,265c276,281
+<             self.search("win")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.search()
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+> 
+>     def sw_entry_active(self, sw):
+>         if self.game.tilt.status == False and self.game.start.status == False:
+>             self.game.entry_won.engage(self.game)
+267c283
+<     def sw_feature_active_for_40ms(self, sw):
+---
+>     def sw_odds_active(self, sw):
+269,270c285,289
+<             self.search("feature")
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.game.odds2_won.engage(self.game)
+> 
+>     def sw_trophy_active(self, sw):
+>         if self.game.tilt.status == False and self.game.start.status == False:
+>             self.game.trophy_won.engage(self.game)
+274c293
+<         graphics.turf_king.display(self)
+---
+>         graphics.futurity.display(self)
+285a305
+>         self.game.all_advantages.disengage()
+303c323,324
+<         self.game.all_advantages.engage(self.game)
+---
+>         self.game.sound.stop_music()
+>         self.game.sound.play('tilt')
+305c326
+<         self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>         self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+315c336
+<                 graphics.replay_step_down(self.game.replays, graphics.turf_king.reel1, graphics.turf_king.reel10, graphics.turf_king.reel100)
+---
+>                 graphics.replay_step_down(self.game.replays, graphics.futurity.reel1, graphics.futurity.reel10, graphics.futurity.reel100)
+318c339
+<                 graphics.turf_king.display(self)
+---
+>                 graphics.futurity.display(self)
+322c343
+<                 graphics.replay_step_down(self.game.replays, graphics.turf_king.reel1, graphics.turf_king.reel10, graphics.turf_king.reel100)
+---
+>                 graphics.replay_step_down(self.game.replays, graphics.futurity.reel1, graphics.futurity.reel10, graphics.futurity.reel100)
+325c346
+<                 graphics.turf_king.display(self)
+---
+>                 graphics.futurity.display(self)
+330,331c351,352
+<                 graphics.replay_step_down(self.game.replays, graphics.turf_king.reel1, graphics.turf_king.reel10, graphics.turf_king.reel100)
+<                 self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>                 graphics.replay_step_down(self.game.replays, graphics.futurity.reel1, graphics.futurity.reel10, graphics.futurity.reel100)
+>                 self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+336c357
+<             self.step_wild(20 - self.game.wild.position)
+---
+>             self.step_wild(17 - self.game.wild.position)
+340c361
+<             self.step_wild(20 - self.game.wild.position)
+---
+>             self.step_wild(17 - self.game.wild.position)
+344d364
+<             self.game.coils.bumperALamp.enable()
+346d365
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+351d369
+<                 self.game.coils.bumperBLamp.enable()
+353d370
+<                 self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+358d374
+<                 self.game.coils.bumperCLamp.enable()
+360d375
+<                 self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+366d380
+<                 self.game.coils.bumperDLamp.enable()
+368d381
+<                 self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+373c386
+<             graphics.replay_step_up(self.game.replays, graphics.turf_king.reel1, graphics.turf_king.reel10, graphics.turf_king.reel100)
+---
+>             graphics.replay_step_up(self.game.replays, graphics.futurity.reel1, graphics.futurity.reel10, graphics.futurity.reel100)
+376c389
+<         graphics.turf_king.display(self)
+---
+>         graphics.futurity.display(self)
+379,390c392,402
+<         if self.game.start.status == True:
+<             if self.game.star.status == True and (self.game.replays > 0 or self.game.switches.freeplay.is_active()):
+<                 self.regular_play()
+<                 return
+<             if self.game.star.status == False:
+<                 self.game.all_advantages.disengage()
+<                 self.game.clover.disengage()
+<                 self.game.horseshoe.disengage()
+<                 self.game.feature.disengage()
+<                 self.game.star.engage(self.game)
+<                 self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+<                 self.delay(name="star", delay=0.1, handler=self.sw_star_active, param=sw)
+---
+>         if self.game.star.status == True and (self.game.replays > 0 or self.game.switches.freeplay.is_active()):
+>             self.game.regular_play()
+>             return
+>         if self.game.star.status == False:
+>             self.game.all_advantages.disengage()
+>             self.game.clover.disengage()
+>             self.game.horseshoe.disengage()
+>             self.game.feature.disengage()
+>             self.game.star.engage(self.game)
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+>             self.delay(name="star", delay=0.1, handler=self.sw_star_active, param=sw)
+393,404c405,415
+<         if self.game.start.status == True:
+<             if self.game.clover.status == True and (self.game.replays > 0 or self.game.switches.freeplay.is_active()):
+<                 self.regular_play()
+<                 return
+<             if self.game.clover.status == False:
+<                 self.game.all_advantages.disengage()
+<                 self.game.horseshoe.disengage()
+<                 self.game.feature.disengage()
+<                 self.game.star.disengage()
+<                 self.game.clover.engage(self.game)
+<                 self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+<                 self.delay(name="clover", delay=0.1, handler=self.sw_clover_active, param=sw)
+---
+>         if self.game.clover.status == True and (self.game.replays > 0 or self.game.switches.freeplay.is_active()):
+>             self.game.regular_play()
+>             return
+>         if self.game.clover.status == False:
+>             self.game.all_advantages.disengage()
+>             self.game.horseshoe.disengage()
+>             self.game.feature.disengage()
+>             self.game.star.disengage()
+>             self.game.clover.engage(self.game)
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+>             self.delay(name="clover", delay=0.1, handler=self.sw_clover_active, param=sw)
+407,418c418,428
+<         if self.game.start.status == True:
+<             if self.game.horseshoe.status == True and (self.game.replays > 0 or self.game.switches.freeplay.is_active()):
+<                 self.regular_play()
+<                 return
+<             if self.game.horseshoe.status == False:
+<                 self.game.all_advantages.disengage()
+<                 self.game.star.disengage()
+<                 self.game.feature.disengage()
+<                 self.game.clover.disengage()
+<                 self.game.horseshoe.engage(self.game)
+<                 self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+<                 self.delay(name="horseshoe", delay=0.1, handler=self.sw_horseshoe_active, param=sw)
+---
+>         if self.game.horseshoe.status == True and (self.game.replays > 0 or self.game.switches.freeplay.is_active()):
+>             self.game.regular_play()
+>             return
+>         if self.game.horseshoe.status == False:
+>             self.game.all_advantages.disengage()
+>             self.game.star.disengage()
+>             self.game.feature.disengage()
+>             self.game.clover.disengage()
+>             self.game.horseshoe.engage(self.game)
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+>             self.delay(name="horseshoe", delay=0.1, handler=self.sw_horseshoe_active, param=sw)
+421,443c431,449
+<         if self.game.start.status == True:
+<             if self.game.feature.status == True and (self.game.replays > 0 or self.game.switches.freeplay.is_active()):
+<                 self.regular_play()
+<                 return
+<             if self.game.feature.status == False:
+<                 self.game.all_advantages.disengage()
+<                 self.game.star.disengage()
+<                 self.game.clover.disengage()
+<                 self.game.horseshoe.disengage()
+<                 self.game.feature.engage(self.game)
+<                 self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+<                 self.delay(name="flag", delay=0.1, handler=self.sw_flag_active, param=sw)
+< 
+<     def search(self, area):
+<         if self.game.start.status == False:
+<             selection = self.game.selection
+<             if self.game.pennant.status == True and self.game.switches.feature.is_active():
+<                 self.find_winner(selection, "feature")
+<             else:
+<                 for item in selection: 
+<                     sw = "self.game.switches.%s%s.is_active()" % (area, item)
+<                     if eval(sw):
+<                         self.find_winner(selection, area)
+---
+>         if self.game.feature.status == True and (self.game.replays > 0 or self.game.switches.freeplay.is_active()):
+>             self.game.regular_play()
+>             return
+>         if self.game.feature.status == False:
+>             self.game.all_advantages.disengage()
+>             self.game.star.disengage()
+>             self.game.clover.disengage()
+>             self.game.horseshoe.disengage()
+>             self.game.feature.engage(self.game)
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+>             self.delay(name="flag", delay=0.1, handler=self.sw_flag_active, param=sw)
+> 
+>     def search(self):
+>         selection = self.game.selection
+>         selection2 = self.game.selection2
+>         if sw_%s_is_active() % (selection):
+>             self.find_winner(selection)
+>         if sw_%s_is_active() % (selection2):
+>             self.find_winner(selection2)
+527c533
+<     def find_winner(self, selection, area):
+---
+>     def find_winner(self, selection):
+533c539
+<             if self.game.abcd.status == True:
+---
+>             if self.game.abcd.status == "True":
+546c552
+<             if area == "feature" and self.game.pennant.status == True:
+---
+>             if selection[:1] == "feature" and self.game.pennant.status == True:
+550c556
+<             if area == "purse":
+---
+>             if selection[:1] == "purse" or selection2[:1] == "purse":
+554c560
+<             elif area == "show":
+---
+>             elif selection[:1] == "show" or selection2[:1] == "show":
+558c564
+<             elif area == "place":
+---
+>             elif selection[:1] == "place" or selection2[:1] == "place":
+563c569
+<                 if area == "win":
+---
+>                 if selection[:1] == "win" or selection2[:1] == "win":
+584a591,592
+>             self.search()
+>             self.timeout_actions()
+587a596
+>         self.game.purse_win.disengage()
+588a598
+>         self.game.show_win.disengage()
+590,593c600,650
+<     def scan_all(self, begin):
+<         print self.game.all_advantages.status
+<         if self.game.all_advantages.status == True or self.game.star.status == True:
+<             s = self.animate_star_scan([begin, self.game.spotting.position,1])
+---
+>     def odds2_probability(self):
+>         if self.game.entry.status == False:
+>             if self.game.trophy.status == False:
+>                 self.game.odds2.step()
+>             else:
+>                 if self.game.mixer5.position not in [4,7,9,16,19,21,24]:
+>                     self.game.odds2.step()
+>         else:
+>             if self.game.mixer5.position not in [2,8,12,14,20,24]:
+>                 if self.game.trophy.status == False:
+>                     self.game.odds2.step()
+>                 else:
+>                     if self.game.mixer5.position not in [4,7,9,16,19,21,24]:
+>                         self.game.odds2.step()
+> 
+>     def check_futurity(self):
+>         if self.game.spotting2.position == 2:
+>             if self.game.trophy.status == False:
+>                 self.game.entry.engage(self.game)
+>         if self.game.spotting2.position == 5:
+>             self.game.entry.engage(self.game)
+>         if self.game.spotting2.position == 1:
+>             if self.game.entry.status == False:
+>                 self.game.trophy.engage(self.game)
+>         if self.game.spotting2.position == 11:
+>             self.game.trophy.engage(self.game)
+>         if self.game.spotting2.position == 31:
+>             if self.game.odds2.position < 5:
+>                 self.game.trophy.engage(self.game)
+>         if self.game.spotting2.position == 6:
+>             if self.game.odds2.position == 4:
+>                 self.odds2_probability()
+>         if self.game.spotting2.position == 7:
+>             if self.game.odds2.position in [0,4]:
+>                 self.odds2_probability()
+>         if self.game.spotting2.position == 3:
+>             if self.game.odds2.position in [1,5]:
+>                 self.odds2_probability()
+>         if self.game.spotting2.position == 43:
+>             if self.game.odds2.position in [2,6]:
+>                 self.odds2_probability()
+>         if self.game.spotting2.position == 13:
+>             if self.game.odds2.position == 7:
+>                 self.odds2_probability()
+>         if self.game.spotting2.position == 4:
+>             if self.game.odds2.position == 8:
+>                 self.odds2_probability()
+> 
+>     def scan_all(self, begin1, begin2, end1, end2):
+>         if self.game.play_all.status == True or self.game.star.status == True:
+>             s = self.animate_star_scan(begin1, end1)
+596,599c653,654
+<         if self.game.all_advantages.status == True or self.game.horseshoe.status == True:
+<             if self.game.fan.status == False:
+<                 self.game.selection = []
+<                 h = self.animate_selection_scan([begin,self.game.spotting.position,1])
+---
+>         if self.game.play_all.status == True or self.game.horseshoe.status == True:
+>             h = self.animate_selection_scan()
+601,610c656,663
+<         if self.game.all_advantages.status == True or self.game.clover.status == True:
+<             i = self.animate_clover_scan([begin,self.game.spotting.position,1])
+<         if self.game.all_advantages.status == True or self.game.feature.status == True:
+<             f = self.animate_feature_scan([begin,self.game.spotting.position,1])
+< 
+<         if self.game.all_advantages.status  == True or self.game.horseshoe.status == True:
+<             if self.game.left_right.status == False:
+<                 if self.game.spotting.position in [6,15,28,31,40,3]:
+<                     self.game.left_right.engage(self.game)
+<             else:
+---
+>         if self.game.play_all.status == True or self.game.clover.status == True:
+>             i = self.animate_clover_scan()
+>         if self.game.play_all.status == True or self.game.feature.status == True:
+>             f = self.animate_feature_scan()
+> 
+>         #Scanning for entry/trophy/odds bumper
+>         if self.game.mixer2.position not in [2,7,11,14,17,19]:
+>             if self.game.entry.status == False:
+612,616c665,685
+<                     self.game.left.disengage()
+<                     self.game.right.engage(self.game)
+<                 else:
+<                     self.game.right.disengage()
+<                     self.game.left.engage(self.game)
+---
+>                     self.check_futurity()
+>                     if self.game.spotting2.position == 2:
+>                         if self.game.trophy.status == False:
+>                             self.game.entry.engage(self.game)
+>                     if self.game.spotting2.position == 5:
+>                         self.game.entry.engage(self.game)
+>             if self.game.cu:
+>                 if self.game.spotting2.position == 2:
+>                     if self.game.trophy.status == False:
+>                         self.game.entry.engage(self.game)
+>                 if self.game.spotting2.position == 5:
+>                     self.game.entry.engage(self.game)
+> 
+>         if self.game.spotting.position in [6,15,28,31,40,3]:
+>             self.game.left_right.engage(self.game)
+>             if self.game.cu:
+>                 self.game.left.disengage()
+>                 self.game.right.engage(self.game)
+>             else:
+>                 self.game.right.disengage()
+>                 self.game.left.engage(self.game)
+620c689
+<             if self.game.all_advantages.status == True:
+---
+>             if self.game.play_all.status == True:
+646c715
+<                 if self.game.all_advantages.status == True:
+---
+>                 if self.game.play_all.status == True:
+665c734
+<                 if self.game.all_advantages.status == True:
+---
+>                 if self.game.play_all.status == True:
+683c752
+<                 if self.game.all_advantages.status == True:
+---
+>                 if self.game.play_all.status == True:
+700c769
+<         if self.game.spotting.position in [1,25,49,26]:
+---
+>         if self.game.spotting.position == 1:
+702c771
+<                 self.step_wild(1)
+---
+>                 self.game.step_wild(1)
+704c773
+<                 self.step_wild(8 - self.game.wild.position)
+---
+>                 self.game.step_wild(5 - self.game.wild.position)
+706c775
+<                 self.step_wild(12 - self.game.wild.position)
+---
+>                 self.game.step_wild(9 - self.game.wild.position)
+708c777
+<                 self.step_wild(20 - self.game.wild.position)
+---
+>                 self.game.step_wild(17 - self.game.wild.position)
+722c791
+<         self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>         self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+732c801
+<             graphics.turf_king.star_animation([self, start + num])
+---
+>             graphics.futurity.star_animation([self, start + num])
+739c808
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+743,746d811
+<         initial = False
+<         if self.game.odds.position < 4:
+<             self.game.odds.step()
+<             initial = True
+749c814
+<             if 4 in self.game.selection:
+---
+>             if self.game.number_four.status == False:
+752c817
+<                         if [3,5] not in self.game.selection:
+---
+>                         if [3,5] not in self.game.selection and [3,5] not in self.game.selection2:
+755c820
+<                                     if self.game.wild.position < 9:
+---
+>                                     if self.game.wild_sections.position < 9:
+762c827
+<                                     if self.game.wild.position < 13:
+---
+>                                     if self.game.wild_sections.position < 13:
+764,765c829
+<                                 if initial == False:
+<                                     self.check_odds()
+---
+>                                 self.check_odds()
+769c833
+<                     if [3,5] not in self.game.selection:
+---
+>                     if [3,5] not in self.game.selection and [3,5] not in self.game.selection2:
+772c836
+<                                 if self.game.wild.position < 9:
+---
+>                                 if self.game.wild_sections.position < 9:
+779c843
+<                                 if self.game.wild.position < 13:
+---
+>                                 if self.game.wild_sections.position < 13:
+781,787c845,852
+<                             if initial == False:
+<                                 self.check_odds()
+<             else:
+<                 if self.game.mixer2.connected_rivet() not in [4,6,9,12,16,18,21,24]:
+<                     if self.game.mixer4.position not in [1,5,7,8,12,16,18,20,21,23]:
+<                         if self.game.spotting2.position in [24,49]:
+<                             if self.game.wild.position < 9:
+---
+>                             self.check_odds()
+>                 else:
+>                     if self.game.mixer2.connected_rivet() not in [4,6,9,12,16,18,21,24]:
+>                         if self.game.mixer4.position not in [1,5,7,8,12,16,18,20,21,23]:
+>                             if self.game.spotting2.position in [24,49]:
+>                                 if self.game.wild_sections.position < 9:
+>                                     self.game.purse_win.engage(self.game)
+>                             elif self.game.spotting2.position in [12,37,10,35]:
+789,794c854
+<                         elif self.game.spotting2.position in [12,37,10,35]:
+<                             self.game.purse_win.engage(self.game)
+<                         if self.game.spotting2.position in [7,16,22,38,47,32,41,47,13]:
+<                             self.game.show_win.engage(self.game)
+<                         elif self.game.spotting2.position in [3,30,28,5]:
+<                             if self.game.wild.position < 13:
+---
+>                             if self.game.spotting2.position in [7,16,22,38,47,32,41,47,13]:
+796c856,858
+<                         if initial == False:
+---
+>                             elif self.game.spotting2.position in [3,30,28,5]:
+>                                 if self.game.wild_sections.position < 13:
+>                                     self.game.show_win.engage(self.game)
+802c864
+<                         if self.game.wild.position < 9:
+---
+>                         if self.game.wild_sections.position < 9:
+809c871
+<                         if self.game.wild.position < 13:
+---
+>                         if self.game.wild_sections.position < 13:
+811,812c873
+<                     if initial == False:
+<                         self.check_odds()
+---
+>                     self.check_odds()
+822c883
+<                         if self.game.spotting2.position in [2,27,14,39]:
+---
+>                         if self.game.spotting2.position in [2,27]:
+825c886
+<                         if self.game.spotting2.position in [1,26,13,38]:
+---
+>                         if self.game.spotting2.position in [1,26]:
+828c889
+<                         if self.game.spotting2.position in [5,30,17,42]:
+---
+>                         if self.game.spotting2.position in [5,30]:
+831c892
+<                         if self.game.spotting2.position in [7,32,19,44]:
+---
+>                         if self.game.spotting2.position in [7,32]:
+834c895
+<                         if self.game.spotting2.position in [10,35,22,47]:
+---
+>                         if self.game.spotting2.position in [10,35]:
+837c898
+<                         if self.game.spotting2.position in [43,18,6,18]:
+---
+>                         if self.game.spotting2.position in [43,18]:
+864,887c925,948
+<             else:
+<                 if self.game.mixer2.position not in [3,5,8,11,15,17,20,23]:
+<                     if self.game.odds.position < 4:
+<                         self.game.odds.step()
+<                         return
+<                     else:
+<                         if self.game.odds.position == 4:
+<                             if self.game.spotting2.position in [2,27]:
+<                                 self.check_extra_step()
+<                         if self.game.odds.position == 5:
+<                             if self.game.spotting2.position in [1,26]:
+<                                 self.check_extra_step()
+<                         if self.game.odds.position == 6:
+<                             if self.game.spotting2.position in [5,30]:
+<                                 self.check_extra_step()
+<                         if self.game.odds.position == 7:
+<                             if self.game.spotting2.position in [7,32]:
+<                                 self.check_extra_step()
+<                         if self.game.odds.position == 8:
+<                             if self.game.spotting2.position in [10,35]:
+<                                 self.check_extra_step()
+<                         if self.game.odds.position == 9:
+<                             if self.game.spotting2.position in [43,18]:
+<                                 self.check_extra_step()
+---
+>                 else:
+>                     if self.game.mixer2.position not in [3,5,8,11,15,17,20,23]:
+>                         if self.game.odds.position < 4:
+>                             self.game.odds.step()
+>                             return
+>                         else:
+>                             if self.game.odds.position == 4:
+>                                 if self.game.spotting2.position in [2,27]:
+>                                     self.check_extra_step()
+>                             if self.game.odds.position == 5:
+>                                 if self.game.spotting2.position in [1,26]:
+>                                     self.check_extra_step()
+>                             if self.game.odds.position == 6:
+>                                 if self.game.spotting2.position in [5,30]:
+>                                     self.check_extra_step()
+>                             if self.game.odds.position == 7:
+>                                 if self.game.spotting2.position in [7,32]:
+>                                     self.check_extra_step()
+>                             if self.game.odds.position == 8:
+>                                 if self.game.spotting2.position in [10,35]:
+>                                     self.check_extra_step()
+>                             if self.game.odds.position == 9:
+>                                 if self.game.spotting2.position in [43,18]:
+>                                     self.check_extra_step()
+903c964
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+910c971
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+912c973
+<             if self.game.wild.position == 20:
+---
+>             if self.game.wild.position == 17:
+918c979
+<         self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>         self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+921,923d981
+<         if self.game.fan.status == True:
+<             self.game.selectoin = [1,2,3,4,5,6,7]
+<             return
+931c989
+<             graphics.turf_king.selection_animation([self, start + num])
+---
+>             graphics.futurity.selection_animation([self, start + num])
+938c996
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+942d999
+<         self.game.selection = []
+944c1001
+<             self.game.selection.append(1)
+---
+>             self.game.selection = 1
+946c1003
+<             self.game.selection.append(2)
+---
+>             self.game.selection = 2
+948c1005
+<             self.game.selection.append(3)
+---
+>             self.game.selection = 3
+950c1007
+<             self.game.selection.append(4)
+---
+>             self.game.selection = 4
+952c1009
+<             self.game.selection.append(5)
+---
+>             self.game.selection = 5
+954c1011
+<             self.game.selection.append(6)
+---
+>             self.game.selection = 6
+956c1013
+<             self.game.selection.append(7)
+---
+>             self.game.selection = 7
+959c1016
+<             self.selection2_probability()
+---
+>             self.game.selection2 = self.selection2_probability()
+961c1018
+<             self.selection2_probability()
+---
+>             self.game.selection2 = self.selection2_probability()
+964c1021
+<                 self.selection2_probability()
+---
+>                 self.game.selection2 = self.selection2_probability()
+967c1024
+<                 self.selection2_probability()
+---
+>                 self.game.selection2 = self.selection2_probability()
+970c1027
+<                 self.selection2_probability()
+---
+>                 self.game.selection2 = self.selection2_probability()
+974c1031
+<             self.game.selection.append(7)
+---
+>             self.game.selection = 7
+976c1033
+<             self.game.selection.append(7)
+---
+>             self.game.selection = 6
+978c1035
+<             self.game.selection.append(5)
+---
+>             self.game.selection = 5
+980c1037
+<             self.game.selection.append(4)
+---
+>             self.game.selection = 4
+982c1039
+<             self.game.selection.append(3)
+---
+>             self.game.selection = 3
+984c1041
+<             self.game.selection.append(2)
+---
+>             self.game.selection = 2
+986c1043
+<             self.game.selection.append(1)
+---
+>             self.game.selection = 1
+990c1047
+<         self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>         self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+1000c1057
+<             graphics.turf_king.feature_animation([self, start + num])
+---
+>             graphics.futurity.feature_animation([self, start + num])
+1007c1064
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+1029c1086
+<         self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>         self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+1039c1096
+<             graphics.turf_king.clover_animation([self, start + num])
+---
+>             graphics.futurity.clover_animation([self, start + num])
+1046c1103
+<             self.delay(name="display", delay=0.1, handler=graphics.turf_king.display, param=self)
+---
+>             self.delay(name="display", delay=0.1, handler=graphics.futurity.display, param=self)
+1052c1109
+<             if 4 in self.game.selection:
+---
+>             if self.game.number_four.status == False:
+1055,1056c1112,1113
+<                         if [3,5] not in self.game.selection:
+<                             if self.game.wild.position < 9:
+---
+>                         if [3,5] not in selection and [3,5] not in selection2:
+>                             if self.game.wild_sections.position < 9:
+1060c1117
+<                                 if self.game.wild.position == 10:
+---
+>                                 if self.game.wild_sections.position == 10:
+1064c1121
+<                             if self.game.wild.position >= 9 and self.game.wild.position <= 13:
+---
+>                             if self.game.wild_sections.position >= 9 and self.game.wild_sections.position <= 13:
+1067c1124
+<                             elif self.game.wild.position >= 13:
+---
+>                             elif self.game.wild_sections.position >= 13:
+1074,1075c1131,1132
+<                     if [3,5] not in self.game.selection:
+<                             if self.game.wild.position < 9:
+---
+>                     if [3,5] not in self.game.selection and [3,5] not in self.game.selection2:
+>                             if self.game.wild_sections.position < 9:
+1079c1136
+<                                 if self.game.wild.position == 10:
+---
+>                                 if self.game.wild_sections.position == 10:
+1083c1140
+<                             if self.game.wild.position >= 9 and self.game.wild.position <= 13:
+---
+>                             if self.game.wild_sections.position >= 9 and self.game.wild_sections.position <= 13:
+1086c1143
+<                             elif self.game.wild.position >= 13:
+---
+>                             elif self.game.wild_sections.position >= 13:
+1092c1149
+<                         if self.game.wild.position < 9:
+---
+>                         if self.game.wild_sections.position < 9:
+1096c1153
+<                             if self.game.wild.position == 10:
+---
+>                             if self.game.wild_sections.position == 10:
+1100c1157
+<                         if self.game.wild.position >= 9 and self.game.wild.position <= 13:
+---
+>                         if self.game.wild_sections.position >= 9 and self.game.wild_sections.position <= 13:
+1103c1160
+<                         elif self.game.wild.position >= 13:
+---
+>                         elif self.game.wild_sections.position >= 13:
+1109c1166
+<                 if self.game.wild.position < 9:
+---
+>                 if self.game.wild_sections.position < 9:
+1113c1170
+<                     if self.game.wild.position == 10:
+---
+>                     if self.game.wild_sections.position == 10:
+1117c1174
+<                 if self.game.wild.position >= 9 and self.game.wild.position <= 13:
+---
+>                 if self.game.wild_sections.position >= 9 and self.game.wild_sections.position <= 13:
+1120c1177
+<                 elif self.game.wild.position >= 13:
+---
+>                 elif self.game.wild_sections.position >= 13:
+1127c1184
+<             if self.game.abcd.status == False or self.game.mixer1.connected_rivet("turf_king") not in [3,10,14,20]:
+---
+>             if self.game.abcd.status == False or self.game.mixer1.connected_rivet("futurity") not in [3,10,14,20]:
+1129,1130c1186,1187
+<         elif self.game.reflex.connected_rivet() == 4 and self.game.mixer1.connected_rivet("turf_king") not in [2,3,4,5,7,9,10,12,15,17,19,20,21,23]:
+<             if self.game.abcd.status == False or self.game.mixer1.connected_rivet("turf_king") not in [3,10,14,20]:
+---
+>         elif self.game.reflex.connected_rivet() == 4 and self.game.mixer1.connected_rivet("futurity") not in [2,3,4,5,7,9,10,12,15,17,19,20,21,23]:
+>             if self.game.abcd.status == False or self.game.mixer1.connected_rivet("futurity") not in [3,10,14,20]:
+1132,1133c1189,1190
+<         elif self.game.reflex.connected_rivet() == 3 and self.game.mixer1.connected_rivet("turf_king") not in [2,5,7,9,12,15,19,23]:
+<             if self.game.abcd.status == False or self.game.mixer1.connected_rivet("turf_king") not in [3,10,14,20]:
+---
+>         elif self.game.reflex.connected_rivet() == 3 and self.game.mixer1.connected_rivet("futurity") not in [2,5,7,9,12,15,19,23]:
+>             if self.game.abcd.status == False or self.game.mixer1.connected_rivet("futurity") not in [3,10,14,20]:
+1135,1136c1192,1193
+<         elif self.game.reflex.connected_rivet() == 2 and self.game.mixer1.connected_rivet("turf_king") not in [5,9,12,15,19,23]:
+<             if self.game.abcd.status == False or self.game.mixer1.connected_rivet("turf_king") not in [3,10,14,20]:
+---
+>         elif self.game.reflex.connected_rivet() == 2 and self.game.mixer1.connected_rivet("futurity") not in [5,9,12,15,19,23]:
+>             if self.game.abcd.status == False or self.game.mixer1.connected_rivet("futurity") not in [3,10,14,20]:
+1138,1139c1195,1196
+<         elif self.game.reflex.connected_rivet() == 1 and self.game.mixer1.connected_rivet("turf_king") not in [5,9,15,23]:
+<             if self.game.abcd.status == False or self.game.mixer1.connected_rivet("turf_king") not in [3,10,14,20]:
+---
+>         elif self.game.reflex.connected_rivet() == 1 and self.game.mixer1.connected_rivet("futurity") not in [5,9,15,23]:
+>             if self.game.abcd.status == False or self.game.mixer1.connected_rivet("futurity") not in [3,10,14,20]:
+1152c1209
+< class TurfKing(procgame.game.BasicGame):
+---
+> class Futurity(procgame.game.BasicGame):
+1155c1212
+<         super(TurfKing, self).__init__(machine_type)
+---
+>         super(Futurity, self).__init__(machine_type)
+1173a1231
+>         self.mixer5 = units.Mixer("mixer5", 23)
+1185c1243,1244
+<         self.wild = units.Stepper("wild", 20)
+---
+>         self.wild = units.Stepper("wild", 17)
+>         self.odds2 = units.Stepper("odds2", 9)
+1200d1258
+<         self.all_advantages = units.Relay("all_advantages")
+1220,1221c1278,1282
+< 
+<         self.cu = 0
+---
+>         self.odds2_won = units.Relay("odds2_won")
+>         self.entry = units.Relay("entry")
+>         self.entry_won = units.Relay("entry_won")
+>         self.trophy = units.Relay("trophy")
+>         self.trophy_won = units.Relay("trophy_won")
+1232c1293,1294
+<         self.selection = [1]
+---
+>         self.selection = None
+>         self.selection2 = None
+1235c1297
+<         super(TurfKing, self).reset()
+---
+>         super(Futurity, self).reset()
+1242c1304
+< game = TurfKing(machine_type='pdb')
+---
+> game = Futurity(machine_type='pdb')

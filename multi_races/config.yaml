@@ -1,0 +1,55 @@
+font_path:
+    - fonts
+
+PRDriverGlobals:
+    lamp_matrix_strobe_time: 200
+    use_watchdog: True
+    watchdog_time: 1000
+
+#pinproc_class: procgame.fakepinproc.FakePinPROC # comment out this line when using a real P-ROC. 
+
+keyboard_switch_map:                                # this is the mapping of keyboard keys to switch matrix keys
+    0: "lane" #Lane Switch
+    1: "feature" #Purse 1
+    2: "bumpera" #Purse 2
+    3: "bumperb" #Purse 3
+    4: "bumperc" #Purse 4
+    5: "bumperd" #Purse 5
+    6: "leftcap" #Purse 6
+    7: "rightcap" #Purse 7
+    8: "show1" #Show1
+    9: "show2" #Show2
+    q: "show3" #Show3
+    w: "show4" #Show4
+    e: "show5" #Show5
+    r: "show6" #Show6
+    t: "show7" #Show7
+    y: "place1" #Place1
+    u: "place2" #Place2
+    i: "place3" #Place3
+    o: "place4" #Place4
+    p: "place5" #Place5
+    a: "place6" #Place6
+    s: "place7" #Place7
+    d: "win1" #Win1
+    f: "win2" #Win2
+    g: "win3" #Win3
+    h: "win4" #Win4
+    j: "win5" #Win5
+    k: "win6" #Win6
+    l: "win7" #Win7
+    $: "tilt" # tilt
+    -: "coin" # coin
+    z: "startButton"
+    x: "star"
+    =: "clover"
+    v: "horseshoe"
+    b: "flag"
+    #n: "bumperb"
+    #m: "bumperc"
+    #[: "bumperd"
+    #]: "feature"
+    #,: "leftcap"
+    #.: "rightcap"
+
+log_destination: ./log.text

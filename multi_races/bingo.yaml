@@ -1,0 +1,154 @@
+PRGame:
+    machineType: pdb
+    numBalls: 1
+PRBumpers:
+    - bumper
+PRCoils:
+    shutter:
+        number: A1-B1-0
+    counter:
+        number: A1-B1-1
+    motor:
+        number: A1-B1-2
+    timing:
+        number: A1-B1-3
+    selection:
+        number: A1-B1-4
+    four_hundred:
+        number: A1-B1-5
+    payout:
+        number: A1-B1-7
+    registerUp:
+        number: A2-B1-0
+    registerDown:
+        number: A1-B1-6
+    bumperCLamp:
+        number: A1-B0-0
+    place:
+        number: A1-B0-1
+    show:
+        number: A1-B0-2
+    win:
+        number: A1-B0-3
+    bumperDLamp:
+        number: A1-B0-4
+    purse:
+        number: A1-B0-5
+    bumperBLamp:
+        number: A1-B0-6
+    feature:
+        number: A1-B0-7
+    bumperALamp:
+        number: A2-B0-0
+        #PRLamps:
+        #    shootAgain:
+        #number: C-A0-B1-4:R-A0-B1-5
+PRSwitches:
+    lane:
+        number: 0
+    smRunout:
+        number: 1
+    bumpera:
+        number: 2
+    bumperb:
+        number: 3
+    bumperc:
+        number: 4
+    bumperd:
+        number: 5
+    purse1:
+        number: 6
+    purse2:
+        number: 7
+    purse3:
+        number: 8
+    purse4:
+        number: 9
+    purse5:
+        number: 10
+    purse6:
+        number: 11
+    purse7:
+        number: 12
+    show1:
+        number: 13
+    show2:
+        number: 14
+    show3:
+        number: 15
+    show4:
+        number: 16
+    show5:
+        number: 17
+    show6:
+        number: 18
+    show7:
+        number: 19
+    place1:
+        number: 20
+    place2:
+        number: 21
+    place3:
+        number: 22
+    place4:
+        number: 23
+    place5:
+        number: 24
+    place6:
+        number: 25
+    place7:
+        number: 26
+    win1:
+        number: 27
+    win2:
+        number: 28
+    win3:
+        number: 29
+    win4:
+        number: 30
+    win5:
+        number: 31
+    win6:
+        number: 32
+    win7:
+        number: 33
+    leftcap:
+        number: 34
+    rightcap:
+        number: 35
+    odds:
+        number: 51
+    # Check switch number on the real hardware
+    feature:
+        number: 36
+    tilt:
+        number: 37
+    coin:
+        number: 38
+    replayReset:
+        number: 39
+    freeplay:
+        number: 40
+    horseshoe:
+        number: 41
+    startButton:
+        number: 42
+    extraBalls:
+        number: 43
+    star:
+        number: 44
+    clover:
+        number: 45
+    flag:
+        number: 46
+    paid:
+        number: 47
+    trophy:
+        number: 48
+    payoutReset:
+        number: 49
+    entry:
+        number: 50
+PRLamps:
+    lamp:
+        number: 1
