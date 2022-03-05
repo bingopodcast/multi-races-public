@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import pygame
 import time
-import turf_king, grandstand, futurity, victory_derby, victory_special, winner, photo_finish, old_hilltop, new_daily_races, arlington, derby_41, preakness, sport_page, fairgrounds, pace_maker, grandstand_38, seabiscuit, thistledowns, grand_national, dark_horse, long_shot, hawthorne, jockey_club_41, pimlico, longacres, citation, lexington, special_entry, bally_entry, jockey_special, champion, kentucky, gold_cup, trophy, sunshine_park, favorite, winning_ticket
+import turf_king, grandstand, futurity, victory_derby, victory_special, winner, photo_finish, old_hilltop, new_daily_races, arlington, derby_41, preakness, sport_page, fairgrounds, pace_maker, grandstand_38, seabiscuit, thistledowns, grand_national, dark_horse, long_shot, hawthorne, jockey_club_41, pimlico, longacres, citation, lexington, special_entry, bally_entry, jockey_special, champion, kentucky, gold_cup, trophy, sunshine_park, favorite, winning_ticket, santa_anita, record_time
 
 def replay_step_up(pos, reel1, reel10, reel100, reel1000=False):
     delta_y = 38

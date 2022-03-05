@@ -126,34 +126,36 @@ def main(sel):
     selection[9] = "hawthorne",
     selection[10] = "pace_maker",
     selection[11] = "grand_national",
-    selection[12] = "dark_horse",
-    selection[13] = "long_shot",
-    selection[14] = "jockey_club_41",
-    selection[15] = "derby_41"
-    selection[16] = "pimlico"
-    selection[17] = "longacres"
-    selection[18] = "victory_derby"
-    selection[19] = "victory_special"
-    selection[20] = "new_daily_races"
-    selection[21] = "bally_entry"
-    selection[22] = "special_entry"
-    selection[23] = "jockey_special"
-    selection[24] = "gold_cup"
-    selection[25] = "trophy"
-    selection[26] = "favorite"
-    selection[27] = "photo_finish"
-    selection[28] = "citation"
-    selection[29] = "lexington"
-    selection[30] = "champion"
-    selection[31] = "kentucky"
-    selection[32] = "grandstand"
-    selection[33] = "turf_king"
-    selection[34] = "winner"
-    selection[35] = "futurity"
-    selection[36] = "old_hilltop"
-    selection[37] = "sunshine_park"
+    selection[12] = "santa_anita",
+    selection[13] = "record_time",
+    selection[14] = "dark_horse",
+    selection[15] = "long_shot",
+    selection[16] = "jockey_club_41",
+    selection[17] = "derby_41"
+    selection[18] = "pimlico"
+    selection[19] = "longacres"
+    selection[20] = "victory_derby"
+    selection[21] = "victory_special"
+    selection[22] = "new_daily_races"
+    selection[23] = "bally_entry"
+    selection[24] = "special_entry"
+    selection[25] = "jockey_special"
+    selection[26] = "gold_cup"
+    selection[27] = "trophy"
+    selection[28] = "favorite"
+    selection[29] = "photo_finish"
+    selection[30] = "citation"
+    selection[31] = "lexington"
+    selection[32] = "champion"
+    selection[33] = "kentucky"
+    selection[34] = "grandstand"
+    selection[35] = "turf_king"
+    selection[36] = "winner"
+    selection[37] = "futurity"
+    selection[38] = "old_hilltop"
+    selection[39] = "sunshine_park"
 
-    for i in range(1,38):
+    for i in range(1,40):
         if sel in selection[i]:
             select = i
             break
