@@ -52,7 +52,7 @@ class MainMenu(procgame.game.Mode):
     def sw_startButton_active(self, sw):
         #self.game.end_run_loop()
         #os.system("/home/nbaldridge/proc/multi-races/multi_races/start_game.sh %s" % self.game.selection[self.game.select])
-	del self.game.proc
+        del self.game.proc
         try:
             s = self.game.select
             t = thread.start_new(__import__("%s.game" % (self.game.selection[self.game.select])))
@@ -68,6 +68,27 @@ class MainMenu(procgame.game.Mode):
             if t.isAlive():
                 t.join()
         self.game.reset(self.game.selection, self.game.select)
+        #try:
+	#    #del self.game.proc
+        #    #self.game.proc = self.game.create_pinproc()
+        #    #self.game.proc.reset(1)
+        #    t = thread.start_new(__import__("%s.game" % (self.game.selection[self.game.select])))
+        #    # This is here in case I need a rip cord - theoretically the exception will be caught and propogated to the handler which does the same thing.
+        #    ##self.game.end_run_loop()
+        #    if t.isAlive():
+        #        t.join()
+        #        self.game.end_run_loop()
+        #except:
+        #    #del self.game.proc
+        #    #self.game.proc = self.game.create_pinproc()
+        #    #self.game.proc.reset(1)
+        #    g = (__import__("%s.game" % (self.game.selection[self.game.select])))
+        #    t = thread.start_new(eval(g))
+        #    self.game.end_run_loop()
+        #    if t.isAlive():
+        #        t.join()
+        #        self.game.end_run_loop()
+        #self.game.reset(self.game.selection, self.game.select)
 
     def sw_star_active(self, sw):
         if self.game.select != 1:
