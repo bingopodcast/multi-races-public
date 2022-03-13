@@ -56,12 +56,12 @@ class OneBall(procgame.game.Mode):
             if self.game.switches.rightcap.is_active():
                 if self.game.right.status == True:
                     self.game.right.disengage()
-                    self.game.left.engage()
+                    self.game.left.engage(self.game)
             if self.game.switches.leftcap.is_active():
                 if self.game.left.status == True:
                     self.game.left.disengage()
-                    self.game.right.engage()
-            self.game.feature.disengage()
+                    self.game.right.engage(self.game)
+            self.game.feature_unit.disengage()
             self.game.coils.shutter.enable()
         self.game.replay_counter.reset()
         self.delay(name="display", delay=0.1, handler=graphics.santa_anita.display, param=self)
@@ -328,16 +328,19 @@ class OneBall(procgame.game.Mode):
         selection = self.game.selection
         allow_continue = False
         if self.game.start.status == False:
-            for item in selection: 
-                sw = "self.game.switches.%s%s.is_active()" % (area, item)
-                if eval(sw):
-                    self.find_winner(selection, area)
-            if area == "show" and self.game.show_section.status == True:
-                self.find_winner(item, area)
-            if area == "place" and self.game.place_section.status == True:
-                self.find_winner(item, area)
-            if area == "win" and self.game.win_section.status == True:
-                self.find_winner(item, area)
+            if self.game.feature_unit.status == True and self.game.switches.feature.is_active():
+                self.find_winner(selection, "feature")
+	    else:
+	        for item in selection: 
+        	    sw = "self.game.switches.%s%s.is_active()" % (area, item)
+                    if eval(sw):
+                        self.find_winner(selection, area)
+                if area == "show" and self.game.show_section.status == True:
+                    self.find_winner(item, area)
+                if area == "place" and self.game.place_section.status == True:
+                    self.find_winner(item, area)
+                if area == "win" and self.game.win_section.status == True:
+                    self.find_winner(item, area)
 
     def get_odds(self, section):
         if section == "purse":
@@ -390,6 +393,10 @@ class OneBall(procgame.game.Mode):
             place = self.get_odds("place")
             win = self.get_odds("win")
             m = self.get_multiplier()
+            if area == "feature" and self.game.feature_unit.status == True:
+                m = self.get_multiplier()
+                self.game.search_index.engage(self.game)
+                self.winner_replay_step_up(40 * m, True)
             if area == "purse":
                 if self.game.replay_counter.position < purse:
                     self.game.search_index.engage(self.game)
@@ -462,14 +469,13 @@ class OneBall(procgame.game.Mode):
                         self.game.left.engage(self.game)
 
         if self.game.spotting.position in [5,6,7,18,20]:
-            self.game.feature_unit.engage()
+            self.game.feature_unit.engage(self.game)
 
-        if self.game.spotting.position in [10,35]:
-            self.game.coils.show.enable()
-        if self.game.spotting.position in [28,3]:
-            self.game.coils.place.enable()
-        if self.game.spotting.position in [42,17]:
-            self.game.coils.win.enable()
+	self.game.coils.purse.enable()
+    	self.game.coils.show.enable()
+        self.game.coils.place.enable()
+        self.game.coils.win.enable()
+	self.game.coils.feature.enable()
 
     def scan_star(self):
         self.star_probability()

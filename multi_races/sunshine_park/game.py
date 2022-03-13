@@ -429,7 +429,7 @@ class OneBall(procgame.game.Mode):
         if self.game.switches.star.is_active() and self.game.switches.horseshoe.is_active():
             self.game.end_run_loop()
             del self.game.proc
-            os.system("/home/nbaldridge/proc/multi-races/multi_races/start_game.sh turf_king")
+            os.system("/home/nbaldridge/proc/multi-races/multi_races/start_game.sh sunshine_park")
         else:
             if self.game.start.status == True:
                 if self.game.feature.status == True and (self.game.replays > 0 or self.game.switches.freeplay.is_inactive()):
@@ -445,10 +445,14 @@ class OneBall(procgame.game.Mode):
                     self.delay(name="display", delay=0.1, handler=graphics.sunshine_park.display, param=self)
                     self.delay(name="flag", delay=0.1, handler=self.sw_flag_active, param=sw)
 
-    def sw_extra_ball_active(self, sw):
+    def stop_motor(self):
+	self.game.coils.motor.disable()
+
+    def sw_extraBalls_active(self, sw):
         if self.game.start.status == False:
             if self.game.eb_play.status == True and (self.game.replays > 0 or self.game.switches.freeplay.is_inactive()):
-                self.game.regular_play()
+                self.regular_play()
+		self.delay(name="disablemotor", delay=0.3, handler=self.stop_motor)
                 return
             if self.game.eb_play.status == False:
                 self.game.all_advantages.disengage()
@@ -458,7 +462,7 @@ class OneBall(procgame.game.Mode):
                 self.game.feature.disengage()
                 self.game.eb_play.engage(self.game)
                 self.delay(name="display", delay=0.1, handler=graphics.sunshine_park.display, param=self)
-                self.delay(name="eb", delay=0.1, handler=self.sw_extra_ball_active, param=sw)
+                self.delay(name="eb", delay=0.1, handler=self.sw_extraBalls_active, param=sw)
 
     def search(self, area):
         if self.game.start.status == False:

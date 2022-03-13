@@ -32,6 +32,10 @@ class OneBall(procgame.game.Mode):
 
     def sw_startButton_active(self, sw):
         if self.game.replays > 0 or self.game.switches.freeplay.is_inactive():
+            if self.game.start.status == False:
+                self.game.horseshoe.disengage()
+                self.game.clover.disengage()
+                self.game.all_advantages.engage(self.game)
             self.regular_play()
             self.delay(name="display", delay=0.1, handler=graphics.champion.display, param=self)
             return
@@ -41,6 +45,12 @@ class OneBall(procgame.game.Mode):
             self.game.all_advantages.engage(self.game)
             self.delay(name="display", delay=0.1, handler=graphics.champion.display, param=self)
             self.delay(name="startButton", delay=0.1, handler=self.sw_startButton_active, param=sw)
+
+    def sw_flag_active(self, sw):
+        if self.game.switches.star.is_active() and self.game.switches.horseshoe.is_active():
+            self.game.end_run_loop()
+            del self.game.proc
+            os.system("/home/nbaldridge/proc/multi-races/multi_races/start_game.sh champion")
 
     def regular_play(self):
         self.cancel_delayed(name="replay_step_up")
@@ -346,7 +356,7 @@ class OneBall(procgame.game.Mode):
 
     def sw_clover_active(self, sw):
         if self.game.clover.status == True and (self.game.replays > 0 or self.game.switches.freeplay.is_active()):
-            self.game.regular_play()
+            self.regular_play()
             return
         if self.game.clover.status == False:
             self.game.horseshoe.disengage()
@@ -639,6 +649,7 @@ class OneBall(procgame.game.Mode):
             self.cancel_delayed(name="star_animation")
             self.delay(name="display", delay=0.1, handler=graphics.champion.display, param=self)
             self.scan_star()
+            self.game.coils.motor.disable()
 
     def star_probability(self):
         self.check_odds()

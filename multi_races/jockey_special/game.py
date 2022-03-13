@@ -29,6 +29,20 @@ class OneBall(procgame.game.Mode):
         self.regular_play()
         self.delay(name="display", delay=0.1, handler=graphics.jockey_special.display, param=self)
 
+    def sw_flag_active(self, sw):
+        if self.game.switches.star.is_active() and self.game.switches.horseshoe.is_active():
+            self.game.end_run_loop()
+            del self.game.proc
+            os.system("/home/nbaldridge/proc/multi-races/multi_races/start_game.sh jockey_special")
+
+    def sw_startButton_active(self, sw):
+        if self.game.replays > 0 or self.game.switches.freeplay.is_inactive():
+            if self.game.start.status == False:
+                self.game.horseshoe.disengage()
+                self.game.all_advantages.engage(self.game)
+            self.regular_play()
+            return
+
     def regular_play(self):
         self.cancel_delayed(name="replay_step_up")
         self.game.cu = not self.game.cu

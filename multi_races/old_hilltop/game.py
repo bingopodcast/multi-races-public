@@ -37,10 +37,10 @@ class OneBall(procgame.game.Mode):
         self.delay(name="display", delay=0.1, handler=graphics.old_hilltop.display, param=self)
 
     def sw_flag_active(self, sw):
-		if self.game.switches.star.is_active() and self.game.switches.horseshoe.is_active():
-			self.game.end_run_loop()
-			del self.game.proc
-			os.system("/home/nbaldridge/proc/multi-races/multi_races/start_game.sh old_hilltop")
+	if self.game.switches.star.is_active() and self.game.switches.horseshoe.is_active():
+	    self.game.end_run_loop()
+	    del self.game.proc
+	    os.system("/home/nbaldridge/proc/multi-races/multi_races/start_game.sh old_hilltop")
 
     def sw_startButton_active(self, sw):
         if self.game.replays > 0 or self.game.switches.freeplay.is_inactive():

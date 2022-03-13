@@ -357,27 +357,43 @@ def selection_animation(args):
     if s.game.right.status == False:
         dirty_rects.append(screen.blit(bg_gi, (398,733), pygame.Rect(398,733,70,50)))
 
-        if 1 in s.game.selection or s.game.fan.status == True:
-            p = [56,616]
-            screen.blit(selection1, p)
-        if 2 in s.game.selection or s.game.fan.status == True:
-            p = [52,766]
-            screen.blit(selection2, p)
-        if 3 in s.game.selection or s.game.fan.status == True:
-            p = [204,788]
-            screen.blit(selection3, p)
-        if 4 in s.game.selection or s.game.fan.status == True:
-            p = [326,814]
-            screen.blit(selection4, p)
-        if 5 in s.game.selection or s.game.fan.status == True:
-            p = [455,785]
-            screen.blit(selection5, p)
-        if 6 in s.game.selection or s.game.fan.status == True:
-            p = [603,762]
-            screen.blit(selection6, p)
-        if 7 in s.game.selection or s.game.fan.status == True:
-            p = [612,610]
-            screen.blit(selection7, p)
+    if 1 not in s.game.selection:
+	dirty_rects.append(screen.blit(bg_gi, (56,616), pygame.Rect(56,616,62,82)))
+    if 2 not in s.game.selection:
+        dirty_rects.append(screen.blit(bg_gi, (52,766), pygame.Rect(52,766,74,86)))
+    if 3 not in s.game.selection or s.game.hold3.status == False:
+        dirty_rects.append(screen.blit(bg_gi, (204,788), pygame.Rect(204,788,65,83)))
+    if 4 not in s.game.selection or s.game.hold4.status == False:
+        dirty_rects.append(screen.blit(bg_gi, (326,814), pygame.Rect(326,814,69,75)))
+    if 5 not in s.game.selection or s.game.hold5.status == False:
+        dirty_rects.append(screen.blit(bg_gi, (455,785), pygame.Rect(455,785,62,87)))
+    if 6 not in s.game.selection:
+        dirty_rects.append(screen.blit(bg_gi, (603,762), pygame.Rect(603,762,65,78)))
+    if 7 not in s.game.selection:
+        dirty_rects.append(screen.blit(bg_gi, (612,610), pygame.Rect(612,610,71,78)))
+
+
+    if 1 in s.game.selection or s.game.fan.status == True:
+        p = [56,616]
+        screen.blit(selection1, p)
+    if 2 in s.game.selection or s.game.fan.status == True:
+        p = [52,766]
+        screen.blit(selection2, p)
+    if 3 in s.game.selection or s.game.fan.status == True:
+        p = [204,788]
+        screen.blit(selection3, p)
+    if 4 in s.game.selection or s.game.fan.status == True:
+        p = [326,814]
+        screen.blit(selection4, p)
+    if 5 in s.game.selection or s.game.fan.status == True:
+        p = [455,785]
+        screen.blit(selection5, p)
+    if 6 in s.game.selection or s.game.fan.status == True:
+        p = [603,762]
+        screen.blit(selection6, p)
+    if 7 in s.game.selection or s.game.fan.status == True:
+        p = [612,610]
+        screen.blit(selection7, p)
 
     if num in [5,20,30,40]:
         if s.game.left.status == False:

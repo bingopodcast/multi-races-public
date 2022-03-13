@@ -38,6 +38,10 @@ class OneBall(procgame.game.Mode):
 
     def sw_startButton_active(self, sw):
         if self.game.replays > 0 or self.game.switches.freeplay.is_inactive():
+            if self.game.start.status == False:
+                self.game.horseshoe.disengage()
+                self.game.clover.disengage()
+                self.game.all_advantages.engage(self.game)
             self.regular_play()
             self.delay(name="display", delay=0.1, handler=graphics.kentucky.display, param=self)
             return
@@ -666,6 +670,7 @@ class OneBall(procgame.game.Mode):
             self.cancel_delayed(name="star_animation")
             self.delay(name="display", delay=0.1, handler=graphics.kentucky.display, param=self)
             self.scan_star()
+            self.game.coils.motor.disable()
 
     def star_probability(self):
         self.check_odds()

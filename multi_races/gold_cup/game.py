@@ -29,6 +29,20 @@ class OneBall(procgame.game.Mode):
         self.regular_play()
         self.delay(name="display", delay=0.1, handler=graphics.gold_cup.display, param=self)
 
+    def sw_flag_active(self, sw):
+        if self.game.switches.star.is_active() and self.game.switches.horseshoe.is_active():
+            self.game.end_run_loop()
+            del self.game.proc
+            os.system("/home/nbaldridge/proc/multi-races/multi_races/start_game.sh gold_cup")
+
+    def sw_startButton_active(self, sw):
+        if self.game.replays > 0 or self.game.switches.freeplay.is_inactive():
+            if self.game.start.status == False:
+                self.game.horseshoe.disengage()
+                self.game.all_advantages.engage(self.game)
+            self.regular_play()
+            return
+
     def regular_play(self):
         self.cancel_delayed(name="replay_step_up")
         self.game.cu = not self.game.cu
@@ -350,17 +364,13 @@ class OneBall(procgame.game.Mode):
         graphics.gold_cup.display(self)
 
     def sw_horseshoe_active(self, sw):
-        if self.game.switches.clover.is_active() and self.game.switches.flag.is_active():
-           self.game.end_run_loop()
-           os.system("/home/nbaldridge/proc/multi-races/multi_races/start_game.sh gold_cup")
-        else:
-            if self.game.horseshoe.status == True and (self.game.replays > 0 or self.game.switches.freeplay.is_active()):
-                self.game.regular_play()
-                return
-            if self.game.horseshoe.status == False:
-                self.game.horseshoe.engage(self.game)
-                self.delay(name="display", delay=0.1, handler=graphics.gold_cup.display, param=self)
-                self.delay(name="horseshoe", delay=0.1, handler=self.sw_horseshoe_active, param=sw)
+        if self.game.horseshoe.status == True and (self.game.replays > 0 or self.game.switches.freeplay.is_active()):
+            self.game.regular_play()
+            return
+        if self.game.horseshoe.status == False:
+            self.game.horseshoe.engage(self.game)
+            self.delay(name="display", delay=0.1, handler=graphics.gold_cup.display, param=self)
+            self.delay(name="horseshoe", delay=0.1, handler=self.sw_horseshoe_active, param=sw)
 
     def search(self, area):
         if self.game.start.status == False:
